@@ -20,7 +20,7 @@ int main()
 
   sud.solve();
 
-  sf::RenderWindow window(sf::VideoMode(413, 520), "Sudoku Game!");  
+  sf::RenderWindow window(sf::VideoMode(409, 520), "Sudoku Game!");  
 
     while (window.isOpen())
     {
@@ -33,8 +33,8 @@ int main()
 
         window.clear();
 
-        sf::RectangleShape tile(sf::Vector2f(35.f, 35.f));
-        sf::RectangleShape line(sf::Vector2f(1.f, 371.f));
+        sf::RectangleShape tile(sf::Vector2f(32.f, 32.f));
+        sf::RectangleShape line(sf::Vector2f(1.f, 369.f));
 
         tile.setFillColor(sf::Color(119,85,125));
         line.setFillColor(sf::Color(217,220,231));
@@ -53,9 +53,9 @@ int main()
             {
               if(j!=0 && j%3==0)
               {
-                line.move(-4.f, 0.f);
+                line.move(-5.f, 0.f);
                 window.draw(line);
-                line.move(4.f, 0.f);
+                line.move(5.f, 0.f);
               }
                 
               line.move(offset*1.f, 0.f);
@@ -66,14 +66,14 @@ int main()
           if(i==0)
           {
             line.setRotation(90.f);
-            line.move(-7.f, 0.f);
+            line.move(-8.f, 0.f);
           }
           
           if(i!=0 && i%3==0)
             {
-                line.move(0.f, -4.f);
+                line.move(0.f, -5.f);
                 window.draw(line);
-                line.move(0.f, 4.f);
+                line.move(0.f, 5.f);
             }
                 
             line.move(0.f, offset*1.f);
