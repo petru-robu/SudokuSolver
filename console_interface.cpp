@@ -1,8 +1,8 @@
 #include <bits/stdc++.h>
-#include "sudoku.h"
+#include "include/sudoku.h"
 using namespace std;
 
-ifstream fin("sudoku.in");
+ifstream fin("resources/sudoku.in");
 
 int main()
 {
@@ -13,7 +13,7 @@ int main()
 
   for(int i=0; i<n; i++)
     for(int j=0; j<n; j++)
-      fin>>v[i][j];
+      fin>>v[i][j];   
 
   Sudoku sud(n, v);
 
