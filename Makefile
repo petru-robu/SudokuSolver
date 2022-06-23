@@ -18,12 +18,12 @@
 
  # make fast compiles with -O2 flag
  fast: $(sources)
-	g++ $(flags_fast) $(INC_PARAMS) $(LIB_PARAMS) $(SCR_PARAMS) -o $(PROGRAM_NAME).out
+	g++ $(flags_fast) $(INC_PARAMS) $(SCR_PARAMS) $(LIB_PARAMS) -o $(PROGRAM_NAME).out
 
  # removes a.out file
  clean:
 	rm $(PROGRAM_NAME).out
 
  run: $(sources)
-	g++ $(flags_all) $(INC_PARAMS) $(LIB_PARAMS) $(SCR_PARAMS) -o $(PROGRAM_NAME).out
+	g++ $(flags_all) $(INC_PARAMS) $(SCR_PARAMS) $(LIB_PARAMS) -o $(PROGRAM_NAME).out
 	./$(PROGRAM_NAME).out

@@ -12,6 +12,7 @@ class Grid
 private:
   bool solved;
   Cell** grid;
+  Cell* selectedCell;
 
   bool isPresentInCol(int col, int num);
   bool isPresentInRow(int row, int num);
@@ -24,13 +25,22 @@ public:
 
   Grid();
   ~Grid();
-  bool solve();
-  void set_state(bool a);
-  bool get_state();
-  void set_cell(int c1, int c2, int val);
-  int get_cell(int c1, int c2);
 
-  void display(sf::RenderWindow &window, sf::Font font, int marg, int cell_size);
+  void prepareDisplay();
+  void display(sf::RenderWindow &window, sf::Font font, int marg);
+
+  bool solve();
+  void clear();
+
+  void set_state(bool a);
+  void set_cell(int c1, int c2, int val);
+
+  bool get_state();
+  Cell& get_cell(int c1, int c2);
+
+  void manageCellsOnClick(sf::RenderWindow &window, sf::Vector2f &mouse);
+  void manageCellsOnHover(sf::RenderWindow &window, sf::Vector2f &mouse);
+  void manageCellsOnInput(sf::RenderWindow &window, sf::Vector2f &mouse);
 
 };
 

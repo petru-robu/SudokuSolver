@@ -7,13 +7,15 @@ Grid::Grid()
     grid[i] = new Cell[GRID_S];
 
   solved = false;
+  selectedCell = NULL;
 }
 
 Grid::~Grid()
 {
   for(int i=0; i<GRID_S; i++)
-      delete grid[i];
+      delete[] grid[i];
   delete grid;
+  delete selectedCell;
   std::cout<<"Destructor apelat!\n";
 }
 
@@ -100,23 +102,116 @@ bool Grid::get_state()
   return solved;
 }
 
-int Grid::get_cell(int c1, int c2)
+Cell& Grid::get_cell(int c1, int c2)
 {
-  return grid[c1][c2].get_val();
+  return grid[c1][c2];
+}
+void Grid::prepareDisplay()
+{
+   for(int i=0; i<GRID_S; i++)
+      for(int j=0; j<GRID_S; j++)
+         grid[i][j].set_color(sf::Color::Black);
 }
 
-void Grid::display(sf::RenderWindow &window, sf::Font font, int marg, int cell_size)
+void Grid::display(sf::RenderWindow &window, sf::Font font, int marg)
 {
   Cell cnt;
+  int cell_size = cnt.get_cell_size();
+
   for (int i=0; i<GRID_S; i++)
   {
     int c2 = marg + i*cell_size;
     for (int j=0; j<GRID_S; j++)
     {
       int c1 = marg + j*cell_size + 1;
-      cnt.set_val(grid[i][j].get_val());
-      cnt.display(window, font, c1, c2, cell_size);
+      grid[i][j].display(window, font, c1, c2);
     }
   }
+}
 
+void Grid::manageCellsOnClick(sf::RenderWindow &window, sf::Vector2f &mouse)
+{
+   for(int i=0; i<GRID_S; i++)
+       for(int j=0; j<GRID_S; j++)
+            grid[i][j].set_view(true);
+   selectedCell = NULL;
+   for(int i=0; i<GRID_S; i++)
+     for(int j=0; j<GRID_S; j++)
+     {
+      if(grid[i][j].selected(mouse))
+         {
+            selectedCell = &grid[i][j];
+            std::cout<<i<<' '<<j<<' '<<grid[i][j].get_val()<<'\n'; 
+            std::cout<<selectedCell->get_val()<<'\n';
+            grid[i][j].set_view(false);
+         }
+     }             
+}  
+
+void Grid::manageCellsOnHover(sf::RenderWindow &window, sf::Vector2f &mouse)
+{
+   for(int i=0; i<GRID_S; i++)
+     for(int j=0; j<GRID_S; j++)
+     {
+      if(grid[i][j].selected(mouse))
+         grid[i][j].set_color(sf::Color::Red);
+      else  
+         grid[i][j].set_color(sf::Color::Black);
+     }             
+} 
+
+void Grid::manageCellsOnInput(sf::RenderWindow &window, sf::Vector2f &mouse)
+{
+      int x=0;
+      if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num0) || sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad0))
+		{
+			x=0;
+		}
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num1) || sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad1))
+		{
+			x=1;
+		}
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num2) || sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad2))
+		{
+			x=2;
+		}
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num3) || sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad3))
+		{
+			x=3;
+		}
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num4) || sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad4))
+		{
+			x=4;
+		}
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num5) || sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad5))
+		{
+			x=5;
+		}
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num6) || sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad6))
+		{
+			x=6;
+		}
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num7) || sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad7))
+		{
+			x=7;
+		}
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num8) || sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad8))
+		{
+			x=8;
+		}
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num9) || sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad9))
+		{
+			x=9;
+		}
+      std::cout<<x<<'\n';
+      selectedCell->set_val(x);
+      selectedCell->set_view(true);
+      selectedCell = NULL;           
+} 
+
+void Grid::clear()
+{
+   for(int i=0; i<GRID_S; i++)
+       for(int j=0; j<GRID_S; j++)
+         grid[i][j].set_val(0);
 }
