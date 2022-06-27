@@ -26,7 +26,7 @@ public:
   void display(sf::RenderWindow &window, sf::Font font, int px, int py);
 
   void set_val(int x);
-  void set_color(sf::Color col);
+  void set_color(sf::Color col1, sf::Color col2);
   void set_view(bool a);
 
   int get_val();

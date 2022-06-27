@@ -14,8 +14,8 @@ int Cell::get_val()
 }
 void Cell::display(sf::RenderWindow &window, sf::Font font, int px, int py)
 {
-  rect->setFillColor(sf::Color::White);
   rect->setOutlineThickness(1.f);
+  rect->setOutlineColor(sf::Color::Black);
 
   text->setFont(font);
   std::string st=""; 
@@ -57,8 +57,8 @@ void Cell::set_view(bool a)
     hidden=1;
 }
 
-void Cell::set_color(sf::Color col)
+void Cell::set_color(sf::Color col1, sf::Color col2)
 {
-  text->setFillColor(col);
-  rect->setOutlineColor(col);
+  text->setFillColor(col1);
+  rect->setFillColor(col2);
 }

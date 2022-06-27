@@ -110,7 +110,7 @@ void Grid::prepareDisplay()
 {
    for(int i=0; i<GRID_S; i++)
       for(int j=0; j<GRID_S; j++)
-         grid[i][j].set_color(sf::Color::Black);
+         grid[i][j].set_color(sf::Color::Black, sf::Color::White);
 }
 
 void Grid::display(sf::RenderWindow &window, sf::Font font, int marg)
@@ -150,18 +150,21 @@ void Grid::manageCellsOnClick(sf::RenderWindow &window, sf::Vector2f &mouse)
 
 void Grid::manageCellsOnHover(sf::RenderWindow &window, sf::Vector2f &mouse)
 {
+   sf::Color color(203, 203, 203);
    for(int i=0; i<GRID_S; i++)
      for(int j=0; j<GRID_S; j++)
      {
       if(grid[i][j].selected(mouse))
-         grid[i][j].set_color(sf::Color::Red);
+         grid[i][j].set_color(sf::Color::Black, color);
       else  
-         grid[i][j].set_color(sf::Color::Black);
+         grid[i][j].set_color(sf::Color::Black, sf::Color::White);
      }             
 } 
 
 void Grid::manageCellsOnInput(sf::RenderWindow &window, sf::Vector2f &mouse)
 {
+   if(selectedCell)
+   {
       int x=0;
       if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num0) || sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad0))
 		{
@@ -206,7 +209,8 @@ void Grid::manageCellsOnInput(sf::RenderWindow &window, sf::Vector2f &mouse)
       std::cout<<x<<'\n';
       selectedCell->set_val(x);
       selectedCell->set_view(true);
-      selectedCell = NULL;           
+      selectedCell = NULL;
+   }            
 } 
 
 void Grid::clear()
