@@ -4,35 +4,42 @@
 #include <SFML/Graphics.hpp>
 #include <bits/stdc++.h>
 
+#define CELL_SIZE 60
+
 
 class Cell
 {
 private:
 
-  static const int cell_size = 30;
   int val;
-  char toStr(int x);
   bool hidden;
+  bool fixed;
 
-  sf::RectangleShape *rect = new sf::RectangleShape(sf::Vector2f(cell_size, cell_size));
+  char toStr(int x);
+
+  sf::RectangleShape *rect;
   sf::Text *text = new sf::Text;
   
 
 public:
 
-  Cell() : val(0) {hidden=0;}
-  Cell(int x) : val(x) {hidden=0;}
+  Cell();
+  ~Cell();
 
-  void display(sf::RenderWindow &window, sf::Font font, int px, int py);
+  void draw(sf::RenderWindow &window, sf::Font font, int px, int py);
 
   void set_val(int x);
-  void set_color(sf::Color col1, sf::Color col2);
-  void set_view(bool a);
-
   int get_val();
-  int get_cell_size();
-  bool get_view();
 
+  void set_hidden(bool a);
+  bool get_hidden();
+
+  void set_fixed(bool a);
+  bool get_fixed();
+
+  void text_color(sf::Color textCol);
+  void rect_color(sf::Color rectCol);
+  
   bool selected(sf::Vector2f &mouse);
 
 };

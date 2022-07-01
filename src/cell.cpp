@@ -1,5 +1,19 @@
 #include "../include/cell.h"
 
+Cell::Cell() : val(0)
+{
+  rect = new sf::RectangleShape(sf::Vector2f(CELL_SIZE, CELL_SIZE));
+  hidden = false;
+  fixed=false;
+}
+
+Cell::~Cell()
+{
+  delete rect;
+  delete text;
+  std::cout<<"Destructor apelat pentru Cell!\n";
+}
+
 char Cell::toStr(int x)
 {
   return (char)(x+48);
@@ -12,7 +26,8 @@ int Cell::get_val()
 {
   return val;
 }
-void Cell::display(sf::RenderWindow &window, sf::Font font, int px, int py)
+
+void Cell::draw(sf::RenderWindow &window, sf::Font font, int px, int py)
 {
   rect->setOutlineThickness(1.f);
   rect->setOutlineColor(sf::Color::Black);
@@ -21,21 +36,17 @@ void Cell::display(sf::RenderWindow &window, sf::Font font, int px, int py)
   std::string st=""; 
   if(val>=1 && val<=9)
     st+= toStr(val);
+
   text->setString(st);
-  text->setCharacterSize(cell_size-10);
+  text->setCharacterSize(CELL_SIZE-10);
 
   rect->setPosition(px, py);
-  text->setPosition(px+6,py+2);
+  text->setPosition(px+12,py+4);
 
   window.draw(*rect);
 
   if(!hidden)
     window.draw(*text);
-}
-
-int Cell::get_cell_size()
-{
-  return cell_size;
 }
 
 bool Cell::selected(sf::Vector2f &mouse)
@@ -45,20 +56,33 @@ bool Cell::selected(sf::Vector2f &mouse)
   else return false;
 }
 
-bool Cell::get_view()
+bool Cell::get_hidden()
 {
   return hidden;
 }
-void Cell::set_view(bool a)
+
+void Cell::set_hidden(bool a)
 {
-  if(a==1)
-    hidden = 0;
-  else 
-    hidden=1;
+  hidden=a;
 }
 
-void Cell::set_color(sf::Color col1, sf::Color col2)
+bool Cell::get_fixed()
 {
-  text->setFillColor(col1);
-  rect->setFillColor(col2);
+  return fixed;
+}
+
+void Cell::set_fixed(bool a)
+{
+  fixed=a;
+}
+
+void Cell::text_color(sf::Color textCol)
+{
+  text->setFillColor(textCol);
+  
+}
+
+void Cell::rect_color(sf::Color rectCol)
+{
+  rect->setFillColor(rectCol);
 }

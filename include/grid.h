@@ -6,10 +6,12 @@
 #include "cell.h"
 
 #define GRID_S 9
+#define MARG 40
 
 class Grid
 {
 private:
+
   bool solved;
   Cell** grid;
   Cell* selectedCell;
@@ -20,27 +22,32 @@ private:
   bool findEmptyPlace(int &row, int &col);
   bool isValidPlace(int row, int col, int num);
   bool solveUtil();
+  void MarkConflicting();
+
+  void set_cellfixed(int c1, int c2, int val);
 
 public:
 
   Grid();
   ~Grid();
 
-  void prepareDisplay();
-  void display(sf::RenderWindow &window, sf::Font font, int marg);
-
   bool solve();
   void clear();
 
-  void set_state(bool a);
+  void Init();
+  void Draw(sf::RenderWindow &window, sf::Font font);
+  void CellClicked(sf::RenderWindow &window, sf::Vector2f &mouse);
+  void CellHovered(sf::RenderWindow &window, sf::Vector2f &mouse);
+  void CellEntered();
+
   void set_cell(int c1, int c2, int val);
+  void set_selectedCell(Cell* c);
 
-  bool get_state();
-  Cell& get_cell(int c1, int c2);
+  Cell* get_cell(int c1, int c2);
+  Cell* get_selectedCell();
 
-  void manageCellsOnClick(sf::RenderWindow &window, sf::Vector2f &mouse);
-  void manageCellsOnHover(sf::RenderWindow &window, sf::Vector2f &mouse);
-  void manageCellsOnInput(sf::RenderWindow &window, sf::Vector2f &mouse);
+  void loadEasy();
+  void loadHard();
 
 };
 
