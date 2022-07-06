@@ -104,16 +104,12 @@ void Game::Credits()
 
     sf::Text nume ("Petru", font1);
     sf::Text madeby ("Sudoku-Solver facut de: ", font2);
-    sf::Text data ("Finalizat la 01.07.2022", font2);
-
+    
     nume.setCharacterSize(23); nume.setFillColor(sf::Color::Black);
     madeby.setCharacterSize(20); madeby.setFillColor(sf::Color::Black);
-    data.setCharacterSize(20); data.setFillColor(sf::Color::Black);
 
     madeby.setPosition(30, 60);
     nume.setPosition(30+madeby.getGlobalBounds().width+3, 59);
-    data.setPosition(30, 110);
-
     while(creditsWindow.isOpen())
     {
         sf::Event event;
@@ -125,7 +121,6 @@ void Game::Credits()
         creditsWindow.clear(sf::Color::White);
         creditsWindow.draw(nume);
         creditsWindow.draw(madeby);
-        creditsWindow.draw(data);
         creditsWindow.display();
     }
 }
