@@ -7,6 +7,7 @@ Grid::Grid()
     grid[i] = new Cell[GRID_S];
 
   solved = false;
+  errors=false;
   selectedCell = NULL;
 }
 
@@ -75,9 +76,7 @@ bool Grid::solveUtil()
 
 void Grid::MarkConflicting()
 { 
-   for(int i=0; i<GRID_S; i++)
-      for(int j=0; j<GRID_S; j++)
-         grid[i][j].text_color(sf::Color::Black);
+   errors = false;
 
    for(int col=0; col<GRID_S; col++)
    {
@@ -89,6 +88,7 @@ void Grid::MarkConflicting()
             {
                grid[i][col].text_color(sf::Color::Red);
                grid[j][col].text_color(sf::Color::Red);
+               errors=true;
             }     
          } 
       }
@@ -105,6 +105,7 @@ void Grid::MarkConflicting()
             {
                grid[row][i].text_color(sf::Color::Red);
                grid[row][j].text_color(sf::Color::Red);
+               errors=true;
             }     
          } 
       }
@@ -123,9 +124,29 @@ void Grid::MarkConflicting()
                      {
                         grid[row+brow][col+bcol].text_color(sf::Color::Red);
                         grid[row1+brow][col1+bcol].text_color(sf::Color::Red);
+                        errors=true;
                      }
       }
 }
+
+void Grid::CheckSolved()
+{
+   if(errors)
+   {
+      solved = false;
+      return;
+   }
+   for(int i=0; i<GRID_S; i++)
+       for(int j=0; j<GRID_S; j++)
+         if(grid[i][j].get_val()<1 || grid[i][j].get_val()>9) 
+         {
+            solved = false;
+            return;
+         }
+
+   solved=true;
+}         
+
 void Grid::clear()
 {
    for(int i=0; i<GRID_S; i++)
@@ -246,17 +267,16 @@ void Grid::loadHard()
 
 bool Grid::solve()
 {
-  if(solveUtil())
+  if(!errors && !solved)
   {
-    solved=true;
-    return true;
+      solveUtil();
+      return true;
   }
-  else
+  else 
   {
-    solved=false;
-    return false;
-  }
-
+   return false;  
+  } 
+   
 }
 
 void Grid::set_cell(int c1, int c2, int val)
@@ -292,22 +312,46 @@ void Grid::Init()
          grid[i][j].rect_color(sf::Color::White);
          grid[i][j].text_color(sf::Color::Black);
       }       
+   solved=false;
+   errors=false;
 }
 
 void Grid::Draw(sf::RenderWindow &window, sf::Font font)
 {
+  CheckSolved();
+
+  if(solved == true)
+  {
+   for(int i=0; i<GRID_S; i++)
+      for(int j=0; j<GRID_S; j++)
+         grid[i][j].text_color(sf::Color::Green);
+  }
+  else
+  {
+   for(int i=0; i<GRID_S; i++)
+    for(int j=0; j<GRID_S; j++)
+      grid[i][j].text_color(sf::Color::Black);
+  }
+
+  MarkConflicting();
+
   for (int i=0; i<GRID_S; i++)
+  {
+    for (int j=0; j<GRID_S; j++)
+      if(grid[i][j].get_fixed()==true)
+         grid[i][j].text_color(sf::Color::Blue);  
+  }
+
+  for(int i=0; i<GRID_S; i++)
   {
     int c2 = MARG + i*CELL_SIZE;
     for (int j=0; j<GRID_S; j++)
     {
       int c1 = MARG + j*CELL_SIZE + 1;
-      if(grid[i][j].get_fixed()==true)
-         grid[i][j].text_color(sf::Color::Blue); 
-
       grid[i][j].draw(window, font, c1, c2);
     }
   }
+
 
   {
    sf::RectangleShape line(sf::Vector2f(2, GRID_S * CELL_SIZE));
@@ -431,6 +475,5 @@ void Grid::CellEntered()
       selectedCell->rect_color(sf::Color::White);
       selectedCell = NULL; 
 
-      MarkConflicting();
 } 
 

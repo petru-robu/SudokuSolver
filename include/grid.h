@@ -12,7 +12,7 @@ class Grid
 {
 private:
 
-  bool solved;
+  bool solved, errors;
   Cell** grid;
   Cell* selectedCell;
 
@@ -23,6 +23,7 @@ private:
   bool isValidPlace(int row, int col, int num);
   bool solveUtil();
   void MarkConflicting();
+  void CheckSolved();
 
   void set_cellfixed(int c1, int c2, int val);
 
